@@ -9,7 +9,7 @@ from werkzeug.wrappers import Response
 from whitenoise import WhiteNoise
 
 from . import __about__
-from .card import CardParams, MeCard, VCard
+from .card import ContactCardParams, VCardFormat, MeCardFormat
 from .settings import Settings
 
 
@@ -19,9 +19,9 @@ from .settings import Settings
 views_bp = Blueprint("views", __name__)
 
 
-def card_params_from_args() -> CardParams:
+def contact_params_from_request() -> ContactCardParams:
     try:
-        return CardParams(**request.args.to_dict())
+        return ContactCardParams(**request.args.to_dict())
     except ValidationError:
         abort(HTTPStatus.UNPROCESSABLE_ENTITY)
 
@@ -38,67 +38,67 @@ def get_card() -> str:
 
 @views_bp.get("/vcard.svg")
 def get_vcard_svg() -> Response:
-    card_params = card_params_from_args()
-    vcard = VCard(card_params)
+    contact_params = contact_params_from_request()
+    vcard = VCardFormat(contact_params)
     return send_file(
-        vcard.qrcode_svg(),
+        vcard.get_svg_qr(),
         mimetype=mimetypes.types_map[".svg"],
-        download_name="vcard.svg",
+        download_name="contact_vcard.svg",
     )
 
 
 @views_bp.get("/vcard.png")
 def get_vcard_png() -> Response:
-    card_params = card_params_from_args()
-    vcard = VCard(card_params)
+    contact_params = contact_params_from_request()
+    vcard = VCardFormat(contact_params)
     return send_file(
-        vcard.qrcode_png(),
+        vcard.get_png_qr(),
         mimetype=mimetypes.types_map[".png"],
-        download_name="vcard.png",
+        download_name="contact_vcard.png",
     )
 
 
 @views_bp.get("/vcard.vcf")
 def get_vcard_vcf() -> Response:
-    card_params = card_params_from_args()
-    vcard = VCard(card_params)
+    contact_params = contact_params_from_request()
+    vcard = VCardFormat(contact_params)
     return send_file(
-        vcard.vcf(),
+        vcard.get_vcf_content(),
         mimetype=mimetypes.types_map[".vcf"],
-        download_name="vcard.vcf",
+        download_name="contact.vcf",
     )
 
 
 @views_bp.get("/mecard.svg")
 def get_mecard_svg() -> Response:
-    card_params = card_params_from_args()
-    mecard = MeCard(card_params)
+    contact_params = contact_params_from_request()
+    mecard = MeCardFormat(contact_params)
     return send_file(
-        mecard.qrcode_svg(),
+        mecard.get_svg_qr(),
         mimetype=mimetypes.types_map[".svg"],
-        download_name="mecard.svg",
+        download_name="contact_mecard.svg",
     )
 
 
 @views_bp.get("/mecard.png")
 def get_mecard_png() -> Response:
-    card_params = card_params_from_args()
-    mecard = MeCard(card_params)
+    contact_params = contact_params_from_request()
+    mecard = MeCardFormat(contact_params)
     return send_file(
-        mecard.qrcode_png(),
+        mecard.get_png_qr(),
         mimetype=mimetypes.types_map[".png"],
-        download_name="mecard.png",
+        download_name="contact_mecard.png",
     )
 
 
 @views_bp.get("/mecard.vcf")
 def get_mecard_vcf() -> Response:
-    card_params = card_params_from_args()
-    mecard = MeCard(card_params)
+    contact_params = contact_params_from_request()
+    mecard = MeCardFormat(contact_params)
     return send_file(
-        mecard.vcf(),
+        mecard.get_vcf_content(),
         mimetype=mimetypes.types_map[".vcf"],
-        download_name="mecard.vcf",
+        download_name="contact.vcf",
     )
 
 
@@ -138,3 +138,11 @@ def create_app(env_file: Optional[str] = ".env") -> Flask:
     app.register_blueprint(views_bp, url_prefix="")
 
     return app
+
+
+# ------------------------------------------------------------------------------
+
+
+if __name__ == "__main__":
+    app = create_app()
+    app.run(debug=True)

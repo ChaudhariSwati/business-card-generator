@@ -1,22 +1,20 @@
 [project]
-name = "business-card-generator"
-description = "Generate digital business card as QR codes, using standard formats (vCard, MeCard)"
+name = "digital-contact-card-creator"
+description = "Create professional digital contact cards with QR codes in multiple formats"
 readme = "README.md"
-license = { text = "AGPL-3.0-or-later" }
+license = { text = "MIT" }
 authors = [
-    { name = "Romain Clement", email = "git@romain-clement.net" }
+    { name = "Swati Chaudhari", email = "swatidchaudhary17@gmail.com" }
 ]
 dynamic = ["version"]
-requires-python = "==3.13.3"
+requires-python = ">=3.8"
 dependencies = [
-    "flask==3.1.1",
-    "gunicorn==23.0.0",
-    "honcho==2.0.0",
-    "jinja2==3.1.6",
-    "pydantic[email]==2.11.5",
-    "pydantic-settings==2.9.1",
-    "segno==1.6.6",
-    "whitenoise==6.9.0",
+    "flask>=2.0.0",
+    "pydantic[email]>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "segno>=1.5.0",
+    "whitenoise>=6.0.0",
+    "gunicorn>=20.0.0",
 ]
 
 [build-system]

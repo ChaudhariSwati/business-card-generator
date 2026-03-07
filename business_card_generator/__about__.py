@@ -1,10 +1,10 @@
-__version__ = "0.3.0"
+__version__ = "1.0.0"
 version = tuple(int(v) for v in __version__.split("."))
-__name__ = "Business Card Generator"
+__name__ = "Digital Contact Card Creator"
 __description__ = (
-    "Generate digital business card as QR codes, using standard formats (vCard, MeCard)"
+    "Create professional digital contact cards with QR codes in multiple formats"
 )
-__author__ = "Romain Clement"
-__author_email__ = "git@romain-clement.net"
-__url__ = "https://github.com/rclement/business-card-generator"
-__license__ = "AGPLv3"
+__author__ = "Swati Chaudhari"
+__author_email__ = "swatidchaudhary17@gmail.com"
+__url__ = "https://github.com/ChaudhariSwati/business-card-generator"
+__license__ = "MIT"

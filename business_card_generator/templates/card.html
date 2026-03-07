@@ -16,113 +16,140 @@
   {% set vcf_url = '' %}
 {% endif %}
 
+<nav class="navbar">
+  <div class="navbar-brand">
+    <strong>📇 {{ config.about.name }}</strong>
+    <span class="tag is-light">v{{ config.about.version }}</span>
+  </div>
+</nav>
+
 <section class="hero is-fullheight">
   <div class="hero-body">
-    <div class="container content">
-      <div class="columns">
-        <div class="column is-one-third is-offset-one-third">
-          <div class="card h-card">
-            <div class="card-image is-flex is-justify-content-center">
-              <figure class="image is-128x128">
-                <img src="{{ svg_url }}" alt="SVG QR-Code">
-              </figure>
-            </div>
-
-            <div class="card-content">
-              <div class="media">
-                {% if params.picture %}
-                <div class="media-left">
-                  <figure class="image is-64x64 mx-0">
-                    <img class="u-photo is-rounded" src="{{ params.picture }}"/>
-                  </figure>
-                </div>
-                {% endif %}
-
-                <div class="media-content">
-                  <p class="title is-4 mb-1 p-name">{{ params.firstname }}{% if params.nickname %} "{{ params.nickname }}"{% endif %} {{ params.lastname }}</p>
-                  {% if params.company %}<span class="p-org">{{ params.company }}</span><br>{% endif %}
-                  {% if params.job %}<span class="p-job-title">{{ params.job }}</span>{% endif %}
-                </div>
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-6-tablet is-5-desktop">
+          <div class="columns">
+            <!-- QR Code Display -->
+            <div class="column is-full">
+              <div style="text-align: center; margin-bottom: 2rem;">
+                <h2 class="section-title" style="font-size: 1.8rem;">Contact Card Ready!</h2>
               </div>
 
-              <div class="content">
-                {% if params.email %}
-                <div class="block icon-text">
-                  <span class="icon">
-                    <img src="{{ url_for('static', filename='icons/at-sign.svg') }}">
-                  </span>
-                  <a class="u-email" href="mailto:{{ params.email }}">{{ params.email }}</a>
+              <!-- QR Code Card -->
+              <div class="card" style="overflow: hidden;">
+                <div style="padding: 2rem; background: #f5f7fa; text-align: center;">
+                  <div style="background: white; padding: 2rem; border-radius: 0.5rem; display: inline-block;">
+                    <img src="{{ svg_url }}" alt="QR Code" style="max-width: 250px; height: auto; margin: 0 auto; display: block;">
+                  </div>
+                  <p style="margin-top: 1rem; color: #666; font-size: 0.9rem;">
+                    Scan to add contact to your phone
+                  </p>
                 </div>
-                {% endif %}
 
-                {% if params.phone %}
-                <div class="block icon-text">
-                  <span class="icon">
-                    <img src="{{ url_for('static', filename='icons/phone.svg') }}">
-                  </span>
-                  <a class="p-tel" href="tel:{{ params.phone }}">{{ params.phone }}</a>
-                </div>
-                {% endif %}
+                <div class="card-content">
+                  <div class="media">
+                    {% if params.profile_image %}
+                    <div class="media-left">
+                      <figure class="image is-64x64">
+                        <img class="is-rounded" src="{{ params.profile_image }}" alt="Profile">
+                      </figure>
+                    </div>
+                    {% endif %}
 
-                {% if params.website %}
-                <div class="block icon-text">
-                  <span class="icon">
-                    <img src="{{ url_for('static', filename='icons/link.svg') }}">
-                  </span>
-                  <a class="u-url" href="{{ params.website }}">{{ params.website }}</a>
-                </div>
-                {% endif %}
+                    <div class="media-content">
+                      <p class="title is-5" style="margin-bottom: 0.25rem;">{{ params.first_name }} {{ params.last_name }}</p>
+                      {% if params.organization %}<p style="color: #7a8292; font-weight: 500;">{{ params.organization }}</p>{% endif %}
+                      {% if params.position %}<p style="color: #999; font-size: 0.9rem;">{{ params.position }}</p>{% endif %}
+                    </div>
+                  </div>
 
-                {% if params.birthday %}
-                <div class="block icon-text">
-                  <span class="icon">
-                    <img src="{{ url_for('static', filename='icons/calendar.svg') }}">
-                  </span>
-                  <span class="dt-bday">{{ params.birthday }}</span>
-                </div>
-                {% endif %}
+                  <div style="margin-top: 1.5rem; border-top: 1px solid #e6e9f0; padding-top: 1.5rem;">
+                    {% if params.email_address %}
+                    <div style="margin-bottom: 0.75rem;">
+                      <a href="mailto:{{ params.email_address }}" style="color: #6366f1; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <img src="{{ url_for('static', filename='icons/at-sign.svg') }}" alt="" style="width: 16px;">
+                        <span style="word-break: break-all;">{{ params.email_address }}</span>
+                      </a>
+                    </div>
+                    {% endif %}
 
-                {% if params.street or params.city or params.zipcode or params.state or params.country %}
-                <div class="icon-text p-adr h-adr">
-                  <span class="icon">
-                    <img src="{{ url_for('static', filename='icons/map-pin.svg') }}">
-                  </span>
-                  {% if params.street %}<div class="p-street-address">{{ params.street }}</div>,{% endif %}
-                  {% if params.city %}<span class="p-locality">{{ params.city }}</span>,{% endif %}
-                  {% if params.zipcode %}<span class="p-postal-code">{{ params.zipcode }}</span>,{% endif %}
-                  {% if params.state %}<span class="p-region">{{ params.state }}</span>,{% endif %}
-                  {% if params.country %}<span class="p-country-name">{{ params.country }}</span>{% endif %}
+                    {% if params.phone_number %}
+                    <div style="margin-bottom: 0.75rem;">
+                      <a href="tel:{{ params.phone_number }}" style="color: #6366f1; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <img src="{{ url_for('static', filename='icons/phone.svg') }}" alt="" style="width: 16px;">
+                        {{ params.phone_number }}
+                      </a>
+                    </div>
+                    {% endif %}
+
+                    {% if params.website_url %}
+                    <div style="margin-bottom: 0.75rem;">
+                      <a href="{{ params.website_url }}" target="_blank" style="color: #6366f1; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <img src="{{ url_for('static', filename='icons/link.svg') }}" alt="" style="width: 16px;">
+                        {{ params.website_url }}
+                      </a>
+                    </div>
+                    {% endif %}
+
+                    {% if params.address_city or params.address_country %}
+                    <div style="color: #666; font-size: 0.9rem; display: flex; align-items: flex-start; gap: 0.5rem; margin-top: 0.75rem;">
+                      <img src="{{ url_for('static', filename='icons/map-pin.svg') }}" alt="" style="width: 16px; flex-shrink: 0; margin-top: 2px;">
+                      <div>
+                        {% if params.address_street %}<div>{{ params.address_street }}</div>{% endif %}
+                        <div>
+                          {% if params.address_city %}{{ params.address_city }}{% endif %}
+                          {% if params.address_state %}, {{ params.address_state }}{% endif %}
+                          {% if params.address_zip %} {{ params.address_zip }}{% endif %}
+                          {% if params.address_country %}<br>{{ params.address_country }}{% endif %}
+                        </div>
+                      </div>
+                    </div>
+                    {% endif %}
+                  </div>
                 </div>
-                {% endif %}
+
+                <footer class="card-footer" style="background: #f5f7fa; border-top: 1px solid #e6e9f0;">
+                  <a class="card-footer-item" href="{{ url_for('views.get_home') }}">
+                    <span class="icon is-small">
+                      <img src="{{ url_for('static', filename='icons/edit.svg') }}" alt="">
+                    </span>
+                    <span>Edit</span>
+                  </a>
+
+                  <a class="card-footer-item" href="{{ png_url }}" download>
+                    <span class="icon is-small">
+                      <img src="{{ url_for('static', filename='icons/download.svg') }}" alt="">
+                    </span>
+                    <span>PNG QR</span>
+                  </a>
+
+                  <a class="card-footer-item" href="{{ vcf_url }}" download>
+                    <span class="icon is-small">
+                      <img src="{{ url_for('static', filename='icons/download.svg') }}" alt="">
+                    </span>
+                    <span>VCF File</span>
+                  </a>
+                </footer>
+              </div>
+
+              <!-- Share Instructions -->
+              <div style="margin-top: 2rem; background: rgba(255, 255, 255, 0.95); padding: 1.5rem; border-radius: 1rem; text-align: center;">
+                <p style="font-size: 0.95rem; color: #666; line-height: 1.6;">
+                  <strong style="color: #4b5563;">💡 Share Your Contact</strong><br>
+                  Scan the QR code with your phone to instantly save your contact information, or download the vCard file to share via email.
+                </p>
               </div>
             </div>
-
-            <footer class="card-footer">
-              <a class="card-footer-item" href="{{ url_for('views.get_home', **params) }}">
-                <span class="icon is-small mx-1">
-                  <img src="{{ url_for('static', filename='icons/edit.svg') }}">
-                </span>
-                <span>Edit</span>
-              </a>
-
-              <a class="card-footer-item" href="{{ png_url }}">
-                <span class="icon is-small mx-1">
-                  <img src="{{ url_for('static', filename='icons/download.svg') }}">
-                </span>
-                <span>PNG</span>
-              </a>
-
-              <a class="card-footer-item" href="{{ vcf_url }}">
-                <span class="icon is-small mx-1">
-                  <img src="{{ url_for('static', filename='icons/download.svg') }}">
-                </span>
-                <span>VCF</span>
-              </a>
-            </footer>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<footer class="footer">
+  <div style="text-align: center; color: rgba(255, 255, 255, 0.7); padding: 2rem; font-size: 0.9rem;">
+    <p>Professional contact cards made easy • Share your details instantly</p>
+  </div>
+</footer>
 {%- endblock %}

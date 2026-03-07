@@ -1,364 +1,468 @@
 {% extends "_base.html" %}
 
 {%- block content %}
+<nav class="navbar">
+  <div class="navbar-brand">
+    <strong>📇 {{ config.about.name }}</strong>
+    <span class="tag is-light">v{{ config.about.version }}</span>
+  </div>
+</nav>
+
 <section class="hero is-fullheight">
   <div class="hero-body">
-    <div class="container content">
-      <div class="columns">
-        <div class="column is-half is-offset-one-quarter">
-          <h1>
-            {{ config.about.name }} <span class="has-text-weight-light is-size-6">({{ config.about.version }})</span>
-          </h1>
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-10-tablet is-8-desktop">
+          <!-- Header -->
+          <div style="text-align: center; margin-bottom: 3rem;">
+            <h1 class="section-title">Professional Digital Cards</h1>
+            <p class="section-subtitle">{{ config.about.description }}</p>
+          </div>
 
-          <p>
-            {{ config.about.description }}
-          </p>
-
-          <hr>
-
-          <form method="GET" action="{{ url_for('views.get_card') }}">
-            <div class="field is-horizontal">
-              <div class="field-label">
-                <label class="label">Card Type</label>
-              </div>
-              <div class="field-body">
-                <div class="control">
-                  <label class="radio">
-                    <input
-                      type="radio"
-                      name="card_type"
-                      value="vcard"
-                      {%- if not request.args.card_type or request.args.card_type == 'vcard' %} checked{% endif %}
-                    >
-                    vCard
-                  </label>
-                  <label class="radio">
-                    <input
-                      type="radio"
-                      name="card_type"
-                      value="mecard"
-                      {%- if request.args.card_type == 'mecard' %} checked{% endif %}
-                    >
-                    MeCard
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="field is-horizontal">
-              <div class="field-label is-normal">
-                <label class="label">Profile</label>
-              </div>
-              <div class="field-body">
-                <div class="field">
-                  <div class="control has-icons-left">
-                    <input
-                      class="input"
-                      type="text"
-                      placeholder="First Name"
-                      name="firstname"
-                      value="{{ request.args.firstname }}"
-                      required
-                    >
-                    <span class="icon is-small is-left">
-                      <img src="{{ url_for('static', filename='icons/user.svg') }}">
-                    </span>
+          <!-- Main Content Grid -->
+          <div class="columns is-gap-4">
+            <!-- Form Column -->
+            <div class="column is-8">
+              <form method="GET" action="{{ url_for('views.get_card') }}" id="cardForm">
+                
+                <!-- Card Type Selection -->
+                <div class="form-section">
+                  <div class="form-section-title">📋 Card Format</div>
+                  <div class="radio-group">
+                    <label>
+                      <input
+                        type="radio"
+                        name="card_type"
+                        value="vcard"
+                        {%- if not request.args.card_type or request.args.card_type == 'vcard' %} checked{% endif %}
+                      >
+                      <strong>vCard</strong> - Standard format
+                    </label>
+                    <label>
+                      <input
+                        type="radio"
+                        name="card_type"
+                        value="mecard"
+                        {%- if request.args.card_type == 'mecard' %} checked{% endif %}
+                      >
+                      <strong>MeCard</strong> - Mobile optimized
+                    </label>
                   </div>
                 </div>
 
-                <div class="field">
-                  <div class="control has-icons-left">
-                    <input
-                      class="input"
-                      type="text"
-                      placeholder="Last Name"
-                      name="lastname"
-                      value="{{ request.args.lastname }}"
-                      required
-                    >
-                    <span class="icon is-small is-left">
-                      <img src="{{ url_for('static', filename='icons/user.svg') }}">
-                    </span>
+                <!-- Personal Information Section -->
+                <div class="form-section">
+                  <div class="form-section-title">👤 Personal Information</div>
+                  <div class="input-group-horizontal">
+                    <div class="field">
+                      <label class="label">First Name *</label>
+                      <div class="control has-icons-left">
+                        <input
+                          class="input"
+                          type="text"
+                          placeholder="Your first name"
+                          name="first_name"
+                          value="{{ request.args.first_name }}"
+                          required
+                        >
+                        <span class="icon is-small is-left">
+                          <img src="{{ url_for('static', filename='icons/user.svg') }}" alt="">
+                        </span>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label class="label">Last Name *</label>
+                      <div class="control has-icons-left">
+                        <input
+                          class="input"
+                          type="text"
+                          placeholder="Your last name"
+                          name="last_name"
+                          value="{{ request.args.last_name }}"
+                          required
+                        >
+                        <span class="icon is-small is-left">
+                          <img src="{{ url_for('static', filename='icons/user.svg') }}" alt="">
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="input-group-horizontal">
+                    <div class="field">
+                      <label class="label">Display Name</label>
+                      <div class="control has-icons-left">
+                        <input
+                          class="input"
+                          type="text"
+                          placeholder="Alternative name or nickname"
+                          name="display_name"
+                          value="{{ request.args.display_name }}"
+                        >
+                        <span class="icon is-small is-left">
+                          <img src="{{ url_for('static', filename='icons/user.svg') }}" alt="">
+                        </span>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label class="label">Birth Date</label>
+                      <div class="control has-icons-left">
+                        <input
+                          class="input"
+                          type="date"
+                          name="birth_date"
+                          value="{{ request.args.birth_date }}"
+                        >
+                        <span class="icon is-small is-left">
+                          <img src="{{ url_for('static', filename='icons/calendar.svg') }}" alt="">
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label class="label">Profile Image URL</label>
+                    <div class="control has-icons-left">
+                      <input
+                        class="input"
+                        type="url"
+                        placeholder="https://example.com/photo.jpg"
+                        name="profile_image"
+                        value="{{ request.args.profile_image }}"
+                      >
+                      <span class="icon is-small is-left">
+                        <img src="{{ url_for('static', filename='icons/image.svg') }}" alt="">
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                <div class="field">
-                  <div class="control has-icons-left">
-                    <input
-                      class="input"
-                      type="text"
-                      placeholder="Nickname"
-                      name="nickname"
-                      value="{{ request.args.nickname }}"
-                    >
-                    <span class="icon is-small is-left">
-                      <img src="{{ url_for('static', filename='icons/user.svg') }}">
-                    </span>
+                <!-- Contact Information Section -->
+                <div class="form-section">
+                  <div class="form-section-title">📞 Contact Information</div>
+                  <div class="input-group-horizontal">
+                    <div class="field">
+                      <label class="label">Email Address</label>
+                      <div class="control has-icons-left">
+                        <input
+                          class="input"
+                          type="email"
+                          placeholder="name@example.com"
+                          name="email_address"
+                          value="{{ request.args.email_address }}"
+                        >
+                        <span class="icon is-small is-left">
+                          <img src="{{ url_for('static', filename='icons/at-sign.svg') }}" alt="">
+                        </span>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label class="label">Phone Number</label>
+                      <div class="control">
+                        <div class="phone-input-group">
+                          <div class="select is-small">
+                            <select name="country_code" id="countryCode">
+                              <option value="+1" {% if not request.args.country_code or request.args.country_code == '+1' %}selected{% endif %}>🇺🇸 +1 (US)</option>
+                              <option value="+44" {% if request.args.country_code == '+44' %}selected{% endif %}>🇬🇧 +44 (UK)</option>
+                              <option value="+91" {% if request.args.country_code == '+91' %}selected{% endif %}>🇮🇳 +91 (IN)</option>
+                              <option value="+86" {% if request.args.country_code == '+86' %}selected{% endif %}>🇨🇳 +86 (CN)</option>
+                              <option value="+81" {% if request.args.country_code == '+81' %}selected{% endif %}>🇯🇵 +81 (JP)</option>
+                              <option value="+49" {% if request.args.country_code == '+49' %}selected{% endif %}>🇩🇪 +49 (DE)</option>
+                              <option value="+33" {% if request.args.country_code == '+33' %}selected{% endif %}>🇫🇷 +33 (FR)</option>
+                              <option value="+39" {% if request.args.country_code == '+39' %}selected{% endif %}>🇮🇹 +39 (IT)</option>
+                              <option value="+7" {% if request.args.country_code == '+7' %}selected{% endif %}>🇷🇺 +7 (RU)</option>
+                              <option value="+55" {% if request.args.country_code == '+55' %}selected{% endif %}>🇧🇷 +55 (BR)</option>
+                              <option value="+61" {% if request.args.country_code == '+61' %}selected{% endif %}>🇦🇺 +61 (AU)</option>
+                              <option value="+82" {% if request.args.country_code == '+82' %}selected{% endif %}>🇰🇷 +82 (KR)</option>
+                              <option value="+34" {% if request.args.country_code == '+34' %}selected{% endif %}>🇪🇸 +34 (ES)</option>
+                              <option value="+31" {% if request.args.country_code == '+31' %}selected{% endif %}>🇳🇱 +31 (NL)</option>
+                              <option value="+46" {% if request.args.country_code == '+46' %}selected{% endif %}>🇸🇪 +46 (SE)</option>
+                              <option value="+47" {% if request.args.country_code == '+47' %}selected{% endif %}>🇳🇴 +47 (NO)</option>
+                              <option value="+45" {% if request.args.country_code == '+45' %}selected{% endif %}>🇩🇰 +45 (DK)</option>
+                              <option value="+41" {% if request.args.country_code == '+41' %}selected{% endif %}>🇨🇭 +41 (CH)</option>
+                              <option value="+43" {% if request.args.country_code == '+43' %}selected{% endif %}>🇦🇹 +43 (AT)</option>
+                              <option value="+32" {% if request.args.country_code == '+32' %}selected{% endif %}>🇧🇪 +32 (BE)</option>
+                              <option value="+48" {% if request.args.country_code == '+48' %}selected{% endif %}>🇵🇱 +48 (PL)</option>
+                              <option value="+30" {% if request.args.country_code == '+30' %}selected{% endif %}>🇬🇷 +30 (GR)</option>
+                              <option value="+351" {% if request.args.country_code == '+351' %}selected{% endif %}>🇵🇹 +351 (PT)</option>
+                              <option value="+353" {% if request.args.country_code == '+353' %}selected{% endif %}>🇮🇪 +353 (IE)</option>
+                              <option value="+358" {% if request.args.country_code == '+358' %}selected{% endif %}>🇫🇮 +358 (FI)</option>
+                              <option value="+420" {% if request.args.country_code == '+420' %}selected{% endif %}>🇨🇿 +420 (CZ)</option>
+                              <option value="+36" {% if request.args.country_code == '+36' %}selected{% endif %}>🇭🇺 +36 (HU)</option>
+                              <option value="+40" {% if request.args.country_code == '+40' %}selected{% endif %}>🇷🇴 +40 (RO)</option>
+                              <option value="+90" {% if request.args.country_code == '+90' %}selected{% endif %}>🇹🇷 +90 (TR)</option>
+                              <option value="+20" {% if request.args.country_code == '+20' %}selected{% endif %}>🇪🇬 +20 (EG)</option>
+                              <option value="+27" {% if request.args.country_code == '+27' %}selected{% endif %}>🇿🇦 +27 (ZA)</option>
+                              <option value="+52" {% if request.args.country_code == '+52' %}selected{% endif %}>🇲🇽 +52 (MX)</option>
+                              <option value="+54" {% if request.args.country_code == '+54' %}selected{% endif %}>🇦🇷 +54 (AR)</option>
+                              <option value="+56" {% if request.args.country_code == '+56' %}selected{% endif %}>🇨🇱 +56 (CL)</option>
+                              <option value="+57" {% if request.args.country_code == '+57' %}selected{% endif %}>🇨🇴 +57 (CO)</option>
+                              <option value="+58" {% if request.args.country_code == '+58' %}selected{% endif %}>🇻🇪 +58 (VE)</option>
+                              <option value="+60" {% if request.args.country_code == '+60' %}selected{% endif %}>🇲🇾 +60 (MY)</option>
+                              <option value="+62" {% if request.args.country_code == '+62' %}selected{% endif %}>🇮🇩 +62 (ID)</option>
+                              <option value="+63" {% if request.args.country_code == '+63' %}selected{% endif %}>🇵🇭 +63 (PH)</option>
+                              <option value="+64" {% if request.args.country_code == '+64' %}selected{% endif %}>🇳🇿 +64 (NZ)</option>
+                              <option value="+65" {% if request.args.country_code == '+65' %}selected{% endif %}>🇸🇬 +65 (SG)</option>
+                              <option value="+66" {% if request.args.country_code == '+66' %}selected{% endif %}>🇹🇭 +66 (TH)</option>
+                              <option value="+84" {% if request.args.country_code == '+84' %}selected{% endif %}>🇻🇳 +84 (VN)</option>
+                              <option value="+852" {% if request.args.country_code == '+852' %}selected{% endif %}>🇭🇰 +852 (HK)</option>
+                              <option value="+853" {% if request.args.country_code == '+853' %}selected{% endif %}>🇲🇴 +853 (MO)</option>
+                              <option value="+886" {% if request.args.country_code == '+886' %}selected{% endif %}>🇹🇼 +886 (TW)</option>
+                              <option value="+971" {% if request.args.country_code == '+971' %}selected{% endif %}>🇦🇪 +971 (AE)</option>
+                              <option value="+972" {% if request.args.country_code == '+972' %}selected{% endif %}>🇮🇱 +972 (IL)</option>
+                              <option value="+973" {% if request.args.country_code == '+973' %}selected{% endif %}>🇧🇭 +973 (BH)</option>
+                              <option value="+974" {% if request.args.country_code == '+974' %}selected{% endif %}>🇶🇦 +974 (QA)</option>
+                              <option value="+975" {% if request.args.country_code == '+975' %}selected{% endif %}>🇧🇹 +975 (BT)</option>
+                              <option value="+976" {% if request.args.country_code == '+976' %}selected{% endif %}>🇲🇳 +976 (MN)</option>
+                              <option value="+977" {% if request.args.country_code == '+977' %}selected{% endif %}>🇳🇵 +977 (NP)</option>
+                              <option value="+98" {% if request.args.country_code == '+98' %}selected{% endif %}>🇮🇷 +98 (IR)</option>
+                              <option value="+993" {% if request.args.country_code == '+993' %}selected{% endif %}>🇹🇲 +993 (TM)</option>
+                              <option value="+994" {% if request.args.country_code == '+994' %}selected{% endif %}>🇦🇿 +994 (AZ)</option>
+                              <option value="+995" {% if request.args.country_code == '+995' %}selected{% endif %}>🇬🇪 +995 (GE)</option>
+                              <option value="+996" {% if request.args.country_code == '+996' %}selected{% endif %}>🇰🇬 +996 (KG)</option>
+                              <option value="+998" {% if request.args.country_code == '+998' %}selected{% endif %}>🇺🇿 +998 (UZ)</option>
+                            </select>
+                          </div>
+                          <input
+                            class="input"
+                            type="tel"
+                            placeholder="(555) 123-4567"
+                            name="phone_number"
+                            value="{{ request.args.phone_number }}"
+                          >
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
 
-            <div class="field is-horizontal">
-              <div class="field-label is-normal"></div>
-              <div class="field-body">
-                <div class="field">
-                  <div class="control has-icons-left">
-                    <input
-                      class="input"
-                      type="text"
-                      placeholder="Picture URL"
-                      name="picture"
-                      value="{{ request.args.picture }}"
-                    >
-                    <span class="icon is-small is-left">
-                      <img src="{{ url_for('static', filename='icons/image.svg') }}">
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="field is-horizontal">
-              <div class="field-label is-normal">
-                <label class="label">Birthday</label>
-              </div>
-              <div class="field-body">
-                <div class="field">
-                  <div class="control has-icons-left">
-                    <input
-                      class="input"
-                      type="date"
-                      name="birthday"
-                      value="{{ request.args.birthday }}"
-                    >
-                    <span class="icon is-small is-left">
-                      <img src="{{ url_for('static', filename='icons/calendar.svg') }}">
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="field is-horizontal">
-              <div class="field-label is-normal">
-                <label class="label">Organization</label>
-              </div>
-              <div class="field-body">
-                <div class="field">
-                  <div class="control has-icons-left">
-                    <input
-                      class="input"
-                      type="text"
-                      placeholder="Company"
-                      name="company"
-                      value="{{ request.args.company }}"
-                    >
-                    <span class="icon is-small is-left">
-                      <img src="{{ url_for('static', filename='icons/building.svg') }}">
-                    </span>
-                  </div>
-                </div>
-
-                <div class="field">
-                  <div class="control has-icons-left">
-                    <input
-                      class="input"
-                      type="text"
-                      placeholder="Job"
-                      name="job"
-                      value="{{ request.args.job }}"
-                    >
-                    <span class="icon is-small is-left">
-                      <img src="{{ url_for('static', filename='icons/briefcase.svg') }}">
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="field is-horizontal">
-              <div class="field-label is-normal"></div>
-              <div class="field-body">
-                <div class="field">
-                  <div class="control has-icons-left">
-                    <input
-                      class="input"
-                      type="email"
-                      placeholder="Email"
-                      name="email"
-                      value="{{ request.args.email }}"
-                    >
-                    <span class="icon is-small is-left">
-                      <img src="{{ url_for('static', filename='icons/at-sign.svg') }}">
-                    </span>
-                  </div>
-                </div>
-
-                <div class="field">
-                  <div class="control has-icons-left">
-                    <input
-                      class="input"
-                      type="text"
-                      placeholder="Phone"
-                      name="phone"
-                      value="{{ request.args.phone }}"
-                    >
-                    <span class="icon is-small is-left">
-                      <img src="{{ url_for('static', filename='icons/phone.svg') }}">
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="field is-horizontal">
-              <div class="field-label is-normal"></div>
-              <div class="field-body">
-                <div class="field">
-                  <div class="control has-icons-left">
-                    <input
-                      class="input"
-                      type="text"
-                      placeholder="Website"
-                      name="website"
-                      value="{{ request.args.website }}"
-                    >
-                    <span class="icon is-small is-left">
-                      <img src="{{ url_for('static', filename='icons/link.svg') }}">
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="field is-horizontal">
-              <div class="field-label is-normal">
-                <label class="label">Address</label>
-              </div>
-              <div class="field-body">
-                <div class="field">
-                  <div class="control has-icons-left">
-                    <input
-                      class="input"
-                      type="text"
-                      placeholder="Street"
-                      name="street"
-                      value="{{ request.args.street }}"
-                    >
-                    <span class="icon is-small is-left">
-                      <img src="{{ url_for('static', filename='icons/map-pin.svg') }}">
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="field is-horizontal">
-              <div class="field-label is-normal"></div>
-              <div class="field-body">
-                <div class="field">
-                  <div class="control has-icons-left">
-                    <input
-                      class="input"
-                      type="text"
-                      placeholder="City"
-                      name="city"
-                      value="{{ request.args.city }}"
-                    >
-                    <span class="icon is-small is-left">
-                      <img src="{{ url_for('static', filename='icons/map-pin.svg') }}">
-                    </span>
+                  <div class="field">
+                    <label class="label">Website / Portfolio</label>
+                    <div class="control has-icons-left">
+                      <input
+                        class="input"
+                        type="url"
+                        placeholder="https://yourwebsite.com"
+                        name="website_url"
+                        value="{{ request.args.website_url }}"
+                      >
+                      <span class="icon is-small is-left">
+                        <img src="{{ url_for('static', filename='icons/link.svg') }}" alt="">
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                <div class="field">
-                  <div class="control has-icons-left">
-                    <input
-                      class="input"
-                      type="text"
-                      placeholder="Zipcode"
-                      name="zipcode"
-                      value="{{ request.args.zipcode }}"
-                    >
-                    <span class="icon is-small is-left">
-                      <img src="{{ url_for('static', filename='icons/map-pin.svg') }}">
-                    </span>
+                <!-- Professional Information Section -->
+                <div class="form-section">
+                  <div class="form-section-title">💼 Professional Information</div>
+                  <div class="input-group-horizontal">
+                    <div class="field">
+                      <label class="label">Organization</label>
+                      <div class="control has-icons-left">
+                        <input
+                          class="input"
+                          type="text"
+                          placeholder="Company or organization name"
+                          name="organization"
+                          value="{{ request.args.organization }}"
+                        >
+                        <span class="icon is-small is-left">
+                          <img src="{{ url_for('static', filename='icons/building.svg') }}" alt="">
+                        </span>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label class="label">Position / Title</label>
+                      <div class="control has-icons-left">
+                        <input
+                          class="input"
+                          type="text"
+                          placeholder="Your job title"
+                          name="position"
+                          value="{{ request.args.position }}"
+                        >
+                        <span class="icon is-small is-left">
+                          <img src="{{ url_for('static', filename='icons/briefcase.svg') }}" alt="">
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            <div class="field is-horizontal">
-              <div class="field-label is-normal"></div>
-              <div class="field-body">
-                <div class="field">
-                  <div class="control has-icons-left">
-                    <input
-                      class="input"
-                      type="text"
-                      placeholder="State"
-                      name="state"
-                      value="{{ request.args.state }}"
-                    >
-                    <span class="icon is-small is-left">
-                      <img src="{{ url_for('static', filename='icons/map-pin.svg') }}">
-                    </span>
+                <!-- Address Section -->
+                <div class="form-section">
+                  <div class="form-section-title">📍 Address Information</div>
+                  <div class="field">
+                    <label class="label">Street Address</label>
+                    <div class="control has-icons-left">
+                      <input
+                        class="input"
+                        type="text"
+                        placeholder="Street address"
+                        name="address_street"
+                        value="{{ request.args.address_street }}"
+                      >
+                      <span class="icon is-small is-left">
+                        <img src="{{ url_for('static', filename='icons/map-pin.svg') }}" alt="">
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="input-group-horizontal">
+                    <div class="field">
+                      <label class="label">City</label>
+                      <div class="control has-icons-left">
+                        <input
+                          class="input"
+                          type="text"
+                          placeholder="City"
+                          name="address_city"
+                          value="{{ request.args.address_city }}"
+                        >
+                        <span class="icon is-small is-left">
+                          <img src="{{ url_for('static', filename='icons/map-pin.svg') }}" alt="">
+                        </span>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label class="label">Postal Code</label>
+                      <div class="control has-icons-left">
+                        <input
+                          class="input"
+                          type="text"
+                          placeholder="ZIP/Postal code"
+                          name="address_zip"
+                          value="{{ request.args.address_zip }}"
+                        >
+                        <span class="icon is-small is-left">
+                          <img src="{{ url_for('static', filename='icons/map-pin.svg') }}" alt="">
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="input-group-horizontal">
+                    <div class="field">
+                      <label class="label">State / Province</label>
+                      <div class="control has-icons-left">
+                        <input
+                          class="input"
+                          type="text"
+                          placeholder="State or province"
+                          name="address_state"
+                          value="{{ request.args.address_state }}"
+                        >
+                        <span class="icon is-small is-left">
+                          <img src="{{ url_for('static', filename='icons/map-pin.svg') }}" alt="">
+                        </span>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label class="label">Country</label>
+                      <div class="control has-icons-left">
+                        <input
+                          class="input"
+                          type="text"
+                          placeholder="Country"
+                          name="address_country"
+                          value="{{ request.args.address_country }}"
+                        >
+                        <span class="icon is-small is-left">
+                          <img src="{{ url_for('static', filename='icons/map-pin.svg') }}" alt="">
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div class="field">
-                  <div class="control has-icons-left">
-                    <input
-                      class="input"
-                      type="text"
-                      placeholder="Country"
-                      name="country"
-                      value="{{ request.args.country }}"
-                    >
-                    <span class="icon is-small is-left">
-                      <img src="{{ url_for('static', filename='icons/map-pin.svg') }}">
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="field is-horizontal">
-              <div class="field-label"></div>
-              <div class="field-body">
+                <!-- Submit Button -->
                 <div class="field">
                   <div class="control">
-                    <button class="button is-fullwidth" type="submit">
+                    <button class="button is-fullwidth is-large is-primary" type="submit">
                       <span class="icon">
-                        <img src="{{ url_for('static', filename='icons/send.svg') }}">
+                        <img src="{{ url_for('static', filename='icons/send.svg') }}" alt="">
                       </span>
-                      <span>Generate</span>
+                      <span>Generate Contact Card</span>
                     </button>
                   </div>
                 </div>
+              </form>
+            </div>
+
+            <!-- Preview Column -->
+            <div class="column is-4">
+              <div class="preview-card">
+                <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: #4b5563;">
+                  📋 Card Preview
+                </h3>
+                <p style="color: #999; text-align: center; margin: 2rem 0;">
+                  <small>Enter your information and click "Generate Contact Card" to preview your QR code and download options.</small>
+                </p>
+                
+                <div style="background: #f5f7fa; padding: 2rem; border-radius: 0.8rem; text-align: center; color: #999;">
+                  <p>✨ Your QR code will appear here</p>
+                </div>
+
+                <hr style="margin: 1.5rem 0;">
+
+                <div style="background: #f5f7fa; padding: 1.5rem; border-radius: 0.8rem;">
+                  <p style="font-size: 0.9rem; color: #666; line-height: 1.6;">
+                    <strong>💡 Tips:</strong><br>
+                    • Add a profile image for better recognition<br>
+                    • Keep contact info updated<br>
+                    • Use professional details<br>
+                    • Test with different formats
+                  </p>
+                </div>
               </div>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="hero-foot">
-    <footer class="footer">
-      <div class="content has-text-centered">
-        <p class="heading">
-          Source-code available on <a href="https://github.com/rclement/business-card-generator">GitHub</a>
-          <br />
-          Free open-source software under AGPLv3 License
-          <br />
-          Built using the <a href="https://flask.palletsprojects.com">Flask</a> framework.
-          <br />
-          Copyright (c) 2022-present <a href="https://romain-clement.net">Romain Clement</a>
-        </p>
-      </div>
-    </footer>
-  </div>
 </section>
+
+<footer class="footer">
+  <div style="text-align: center; color: rgba(255, 255, 255, 0.7); padding: 2rem; font-size: 0.9rem;">
+    <p>Made with ❤️ for professionals • Built with Flask and modern web technologies</p>
+  </div>
+</footer>
+</section>
+
+<script>
+document.getElementById('cardForm').addEventListener('submit', function(e) {
+  const countryCode = document.getElementById('countryCode').value;
+  const phoneInput = document.querySelector('input[name="phone_number"]');
+  const phoneNumber = phoneInput.value.trim();
+  
+  if (phoneNumber && !phoneNumber.startsWith('+')) {
+    phoneInput.value = countryCode + ' ' + phoneNumber;
+  }
+});
+
+// Initialize phone number field on page load
+document.addEventListener('DOMContentLoaded', function() {
+  const phoneInput = document.querySelector('input[name="phone_number"]');
+  const countrySelect = document.getElementById('countryCode');
+  const phoneNumber = phoneInput.value.trim();
+  
+  if (phoneNumber.startsWith('+')) {
+    // Try to extract country code and number
+    const parts = phoneNumber.split(' ');
+    if (parts.length >= 2) {
+      const code = parts[0];
+      const number = parts.slice(1).join(' ');
+      
+      // Find matching option
+      const option = Array.from(countrySelect.options).find(opt => opt.value === code);
+      if (option) {
+        countrySelect.value = code;
+        phoneInput.value = number;
+      }
+    }
+  }
+});
+</script>
+
 {%- endblock %}
