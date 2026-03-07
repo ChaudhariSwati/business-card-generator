@@ -106,7 +106,16 @@ def get_mecard_vcf() -> Response:
 
 
 def create_app(env_file: Optional[str] = ".env") -> Flask:
-    settings = Settings(_env_file=env_file)
+    # For serverless/production environments, skip .env file loading
+    if env_file == ".env":
+        try:
+            settings = Settings(_env_file=env_file)
+        except (FileNotFoundError, ValueError):
+            # .env file not found, use defaults
+            settings = Settings()
+    else:
+        # env_file is None, don't try to load from file
+        settings = Settings()
 
     app = Flask(__name__)
     app.config.from_object(settings)

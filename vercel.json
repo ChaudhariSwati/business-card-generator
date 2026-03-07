@@ -1,8 +1,18 @@
 {
+  "buildCommand": "pip install -r requirements.txt",
   "builds": [
-    { "src": "business_card_generator/wsgi.py", "use": "@vercel/python" }
+    { 
+      "src": "business_card_generator/wsgi.py", 
+      "use": "@vercel/python",
+      "config": {
+        "pythonVersion": "3.11"
+      }
+    }
   ],
   "routes": [
     { "src": "(.*)", "dest": "business_card_generator/wsgi.py"}
-  ]
+  ],
+  "env": {
+    "PYTHONUNBUFFERED": "1"
+  }
 }
