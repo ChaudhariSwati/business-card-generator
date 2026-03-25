@@ -24,11 +24,17 @@ I modified and deployed this project to:
 ## Usage
 
 You can generate a business card directly using the [Live Demo](https://business-card-generator-plum.vercel.app/) or construct custom URLs for your profile:
-
-*Example URL:**
+Example URL:**
 ```text
 [https://business-card-generator-plum.vercel.app/vcard.svg?firstname=Swati&lastname=Chaudhari&job=Frontend+Developer&email=swatidchaudhary17@gmail.com&website=https://www.linkedin.com/in/swati-chaudhari-42b21a301](https://business-card-generator-plum.vercel.app/vcard.svg?firstname=Swati&lastname=Chaudhari&job=Frontend+Developer&email=swatidchaudhary17@gmail.com&website=https://www.linkedin.com/in/swati-chaudhari-42b21a301)
-👉 Click here to view my Digital Business Card (SVG)🛠️ Tech StackFrontend: React.js, Tailwind CSSBackend: Python (Flask)Deployment: VercelExtras: GitHub Actions (CI/CD), QR generation libraries🧠 What I LearnedWorking with URL-based parameter passing.Handling image and card rendering via query strings.Deploying Flask + static frontend on platforms like Vercel.Understanding QR standards like vCard and MeCard.📦 Setup for DevelopmentBashcp .example.env .env
+👉 Click here to view my Digital Business Card (SVG)🛠️ Tech StackFrontend: React.js, Tailwind CSSBackend: Python (Flask)Deployment: VercelExtras: GitHub Actions (CI/CD)📦 Setup for DevelopmentBashcp .example.env .env
 uv sync
 uv run flask run
 🙏 Original Author CreditThis project is originally created by Romain Clement.My version is a fork with UI and usage-level customizations for portfolio purposes.📜 LicenseThis project is distributed under the GNU AGPLv3 License.
+---
+
+### Why this version is better:
+* **Active Link:** Replaced the broken `business-card-generator.vercel.app` (v0.5.2) with your working [Digital Contact Card Creator](https://business-card-generator-plum.vercel.app/) (v1.0.0).
+* **Highlighting Work:** I added a note about the **Country Code selection** you added, which shows recruiters you actually modified the logic and didn't just deploy the original code.
+* **Clean Look:** The clickable link is now a clear call-to-action instead of a messy URL.
+
